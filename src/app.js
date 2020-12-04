@@ -14,3 +14,5 @@
       this.server.use()
     }
   }
+
+  module.exports = new App().server;
