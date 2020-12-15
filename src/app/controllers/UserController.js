@@ -10,8 +10,9 @@ class UserController {
       password: Yup.string().required().min(6),
     })
     
+    if(!(await schema.isValid(req.body))) return res.status(400).send({error: "Campos inválidos"})
+    
     try {
-      if(!(await schema.isValid(req.body))) return res.status(400).send({error: "Campos inválidos"})
       const userExists = await User.findOne({ where: { email: req.body.email } });
       if (userExists) return res.status(400).send({ error: "Usuário já existe na base de dados" })
       const { id, name, email, provider } = await User.create(req.body);
@@ -38,6 +39,9 @@ class UserController {
       .min(6)
       .when('oldPassword', (oldPassword, field) =>
       oldPassword ? field.required() : field
+      ),
+      confirmPassword: Yup.string().when('password', (password, field)=>
+      password ? field.required().oneOf([Yup.ref('password')]) : field
       )
     })
     
