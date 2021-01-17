@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import {startOfHour, parseISO, isBefore } from 'date-fns';
 import Appointment from '../models/Appointment';
+import File from '../models/File';
 import User from '../models/User';
 
 class AppointmentController {
@@ -8,6 +9,22 @@ class AppointmentController {
   async index(req, res){
     const appointments = await Appointment.findAll({
       where:{user_id: req.userId, canceled_at: null},
+      order: ['date'],
+      attributes: ['id', 'date', 'canceled_at'],
+      include: [
+        {
+          model: User,
+          as: 'provider',
+          attributes: ['id', 'name'],
+          include:[
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url']
+            }
+          ]
+        } 
+      ]
     })
     
     return res.json(appointments);
