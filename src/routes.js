@@ -20,6 +20,7 @@ routes.use(authMiddlewares);
 routes.put('/users', UserController.update);
 routes.post('/file', upload.single('file'), FileController.store);
 routes.get('/providers', ProviderController.index);
-routes.get('/appointments', AppointmentController.store);
+routes.post('/appointments', AppointmentController.store);
+routes.get('/appointments', AppointmentController.index);
 
 export default routes;
