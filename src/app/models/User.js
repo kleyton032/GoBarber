@@ -30,6 +30,15 @@ class User extends Model {
     return bcrypt.compare(password, this.password_hash);
   }
 
+  //getUser(){
+    //return {
+      //nome: this.name, 
+      //password: this.password_hash, 
+    //  email: this.email
+  //  }
+    
+  
+
 }
 
 export default User;
