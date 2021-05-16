@@ -44,6 +44,7 @@ class AppointmentController {
     
     const {provider_id, date} = req.body; 
  
+    //chequenando se está sendo agendado para relamente um provider.
     const isProvider = await User.findOne({
       where:{id:provider_id, provider: true}
     });
